@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="htttps://www.thymeleaf.orf/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="ISO-8859-1">
+<title>Register</title>
+<script src="../static/jquery-3.5.1.min.js" th:src="@{/js/jquery-3.5.1.min.js}"></script>
+<script src="../static/bootstrap.bundle.min.js" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
+<script src="../static/js/register.js" th:src="@{/js/register.js}"></script>
+</head>
+<body>
+	<h1 class="text-center mt-5">Create an Account</h1>
+	<div id="error" class="error"></div>
+	<form action="" th:action="@{/register}" 
+		 onSubmit="return validateForm(inputUsername, inputPassword, inputConfirmPassword)"
+		 method="post" name="form">
+		<div class="form-group w-50 mx-auto d-block">
+		
+			<div class="form-group w-50 mx-auto d-block">
+		      	<label for="inputUsername">Username</label>
+		      	<input type="text" class="form-control" id="inputUsername" 
+	      				name="username" placeholder="New username"required>
+		    </div> 
+		    <div class="form-group w-50 mx-auto d-block">
+		      	<label for="inputPassword">Password</label>
+		      	<input type="password" class="form-control" id="inputPassword" 
+	      				name="password" placeholder="New password"required>
+		    </div>
+		    <div class="form-group w-50 mx-auto d-block">
+		      	<label for="inputConfirmPassword">Confirm Password</label>
+		      	<input type="password" class="form-control" id="inputConfirmPassword" 
+	      				name="confirmPassword" placeholder="Repeat password"required>
+		    </div>
+			
+			<button class="btn btn-primary mx-auto d-block">Submit</button>
+			
+			<div class="w-50 mx-auto mt-3">
+				<a href="/" th:href="@{/}" class="btn btn-outline-danger">Go back</a>
+			</div>
+		</div>
+	</form>
+</body>
+</html>

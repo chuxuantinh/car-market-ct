@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+		xmlns:sec="htttps://www.thymeleaf.orf/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="ISO-8859-1">
+<title>Ren-A-Car</title>
+<script src="../static/jquery-3.5.1.min.js" th:src="@{/js/jquery-3.5.1.min.js}"></script>
+<script src="../static/bootstrap.bundle.min.js" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+	    <span class="navbar-toggler-icon"></span>
+	  </button>
+	  <a class="navbar-brand" href="">Rent-A-Car</a>
+	
+	  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+	    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+	      <li class="nav-item active">
+	        <a class="nav-link" href="/" th:href="@{/}">Home <span class="sr-only">(current)</span></a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="/secure" th:href="@{/secure}">Cars</a>
+	      </li>
+	    </ul>
+	    <div sec:authorize="isAnonymous()">
+	    <ul class="navbar-nav justify-content-end">
+			  <li class="nav-item">
+			    <a class="nav-link" href="/login" th:href="@{/login}">Login</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" href="/register" th:href="@{/register}">Sign Up</a>
+			  </li>
+	  	</ul>
+	  	</div>
+	  	<div sec:authorize="isAuthenticated()">
+	  		<ul class="navbar-nav justify-content-end">
+	  			<li class="nav-item">
+	  				<a class="nav-link disabled">Welcome, <span sec:authentication="name"></span></a>
+  				</li>
+	  			<li class="nav-item">
+	  				<a class="nav-link" href="#" th:href="@{/logout}">Logout</a>
+  				</li>
+	  		</ul>
+	  	</div>
+	  </div>  
+	</nav>
+	
+	<div class="container overflow-auto">
+		<h1>Listed Cars</h1>
+		<div class="text-right m-2">
+			<a class="btn btn-success btn-sm" href="/insert" th:href="@{/secure/insert}">Add Car</a>
+			<!-- Only admins can see the delete button. However, if an user access the URL, they will get the access denied-->
+			<a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-danger btn-sm" href="/delete" th:href="@{/secure/delete}">Delete Car</a>
+		</div>
+		<table class="table h-100 overflow-auto">
+		  <thead>
+		    <tr>
+		      <th scope="col">Car Id</th>
+		      <th scope="col">Manufacturer</th>
+		      <th scope="col">Year</th>
+		      <th scope="col">Model</th>
+		      <th scope="col">Color</th>
+		      <th scope="col">Price</th>
+		      <th scope="col">Action</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr th:each="car: ${CarList}">
+			    <td th:text="${car.carID}"></td>
+			    <td th:each="man: ${ManList}" 
+			    	th:if="${man.manufacturerID == car.manufacturerID}" 
+			    	th:text="${man.manufacturerName}"></td>
+			    <td th:text="${car.year}"></td>
+			    <td th:text="${car.carModel}"></td>
+			    <td th:text="${car.color}"></td>
+			    <td th:text="'$' + ${car.price}"></td>
+			    <td>
+			    	<a href="/update" class="btn btn-outline-warning"
+			    	th:href="@{/secure/update/} + ${car.carID}">Update</a>
+		    	</td>
+		    </tr>
+		  </tbody>
+		</table>
+	</div>
+</body>
+</html>
